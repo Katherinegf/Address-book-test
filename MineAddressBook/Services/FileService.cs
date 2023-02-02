@@ -8,13 +8,13 @@ namespace MyAddressBook.Services;
 
 public class FileService
 {
-    private string FilePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contactConsole.json";
+    public string FilePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contactConsole.json";
     public void Save(string filePath, string content)
     {
         using var sw = new StreamWriter(filePath);
         sw.WriteLine(content);
     }
-    public string Read(string filePath)
+    private string Read(string filePath)
     {
         try
         {
@@ -27,8 +27,13 @@ public class FileService
         }
     }
 
-    internal void Save(string v)
+    public void Save(string v)
     {
-        throw new NotImplementedException();
+        File.WriteAllTextAsync(FilePath, v).Wait();
+    }
+
+    public string Read()
+    {
+        return Read(FilePath);
     }
 }
